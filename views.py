@@ -13,8 +13,8 @@ class CallbackView(View):
         ip = request.META['REMOTE_ADDR']
         hash = hashlib.md5()
         hash.update((PUSHALL_API_KEY + uid + time + ip).encode('utf8'))
-        # if sign != hash.hexdigest():
-        #     raise Exception('Invalid sign')
+        if sign != hash.hexdigest():
+            raise Exception('Invalid sign')
 
         exists = PushUser.objects.filter(uid=uid)
         if not exists:
