@@ -24,7 +24,7 @@ django-pushall - это приложение для поддержки сист�
 
     urlpatterns = [
         ...
-        url(r'^pushall/', include('pushall.urls')),
+        url(r'^pushall/', include('django_pushall.urls')),
         ...
     ]
     
@@ -48,7 +48,7 @@ _PUSHALL_USER_KEY_ - ключ API вашей учетной записи
 #Отправка уведомлений
 ##Отправка самому себе
 
-    from pushall import Pushall
+    from django_pushall import Pushall
     
     Pushall.self('Заголовок', 'Текст сообщения')  # простое уведомление
     Pushall.self('Заголовок', 'Текст сообщения', url='http://site.ru')  # уведомление со ссылкой
@@ -59,7 +59,7 @@ _PUSHALL_USER_KEY_ - ключ API вашей учетной записи
     
 ##Отправка всех пользователям канала
 
-    from pushall import Pushall
+    from django_pushall import Pushall
     
     Pushall.broadcast('Заголовок', 'Текст сообщения')
     
@@ -68,7 +68,7 @@ _PUSHALL_USER_KEY_ - ключ API вашей учетной записи
 
 ##Отправка подписчику канала
 
-    from pushall import Pushall
+    from django_pushall import Pushall
     
     Pushall.unicast(12345, 'Заголовок', 'Текст сообщения') #отправка уведомления подписчику с идентификатором 12345
     
@@ -77,7 +77,7 @@ _PUSHALL_USER_KEY_ - ключ API вашей учетной записи
 
 ##Отправка нескольким подписчикам канала
 
-    from pushall import Pushall
+    from django_pushall import Pushall
     
     Pushall.milticast([12345, 12346, 12347], 'Заголовок', 'Текст сообщения') #отправка уведомления подписчикам с идентификаторами 12345, 12346, 12347
     
@@ -86,14 +86,14 @@ _PUSHALL_USER_KEY_ - ключ API вашей учетной записи
 
 ##Просмотр состояния ленты канала
 
-    from pushall import Pushall
+    from django_pushall import Pushall
     
     print(Pushall.show_list()) #вывод на экран состояния ленты канала
     print(Pushall.show_list(lid=1000)) #вывод на экран состояния уведомления c идентификатором 1000
     
 ##Просмотр списка подписчиков канала
     
-    from pushall import Pushall
+    from django_pushall import Pushall
 
     print(Pushall.show_users()) #вывод на экран списка подписчиков
     print(Pushall.show_users(uid=12345)) #вывод на экран информации о подписчике с идентификатором 12345
@@ -104,7 +104,7 @@ _PUSHALL_USER_KEY_ - ключ API вашей учетной записи
 
     urlpatterns = [
         ...
-        url(r'^pushall/', include('pushall.urls')),
+        url(r'^pushall/', include('django_pushall.urls')),
         ...
     ]
     
@@ -120,13 +120,13 @@ _PUSHALL_USER_KEY_ - ключ API вашей учетной записи
 Все подписчики привязываются к пользователям сайта.
 Получить список подписчиков можно так
 
-    from pushall.models import PushUser
+    from django_pushall.models import PushUser
     
     subscribers = PushUser.objects.all()
     
 ##Отправить уведомление подписчику
 
-    from pushall.models import PushUser
+    from django_pushall.models import PushUser
     
     subscriber = PushUser.objects.get(uid=12345)
     subscriber.notice('Заголовок', 'Текст')
@@ -136,7 +136,7 @@ _PUSHALL_USER_KEY_ - ключ API вашей учетной записи
 ##Отправить уведомление пользователю сайта
 
     from django.contrib.auth.models import User
-    from pushall.models import PushUser
+    from django_pushall.models import PushUser
     
     user = User.objects.get(id=1)
     PushUser.notice_to_user(user, 'Заголовок', 'Текст')
