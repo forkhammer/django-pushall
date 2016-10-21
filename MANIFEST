@@ -6,7 +6,5 @@ django_pushall/models.py
 django_pushall/urls.py
 django_pushall/api.py
 django_pushall/apps.py
-django_pushall/migrations/0001_initial.py
-django_pushall/migrations/__init__.py
 django_pushall/tests.py
 django_pushall/views.py

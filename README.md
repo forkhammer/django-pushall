@@ -9,13 +9,15 @@ django-pushall - это приложение для поддержки сист�
 
     INSTALLED_APPS = [
         ...
-        'django-pushall',
+        'django_pushall',
         ... 
     ]    
 
 Выполнить команду
 
-    python manage.py migrate
+    python manage.py makemigrations django_pushall
+    
+    python manage.py migrate django_pushall
     
 для создания таблиц моделей
 
