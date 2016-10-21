@@ -1,3 +1,4 @@
+setup.py
 django_pushall/admin.py
 django_pushall/app_settings.py
 django_pushall/__init__.py
