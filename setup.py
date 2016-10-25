@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="django-pushall",
-    version='1.0.1b1',
+    version='1.0.1b2',
     packages=find_packages(),
     author="Forkhammer",
     author_email="forkhammer@gmail.com",
