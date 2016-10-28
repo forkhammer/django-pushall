@@ -5,16 +5,31 @@ import json
 
 
 class PushallAPI(object):
-    def _send(self, type, id, key, title=None, text=None, url=None, icon=None, ttl=None, **kwargs):
+    HIDDEN_DEFAULT = 0
+    HIDDEN_ALL = 1
+    HIDDEN_FEED = 2
+
+    PRIORITY_DEFAULT = 0
+    PRIORITY_LOW = -1
+    PRIORITY_HIGH = 1
+
+    FILTER_DISABLE = -1
+    FILTER_ENABLE = 1
+
+
+    def _send(self, type, id, key, title=None, text=None, **kwargs):
         data = {
             'type': type,
             'id': id,
             'key': key,
             'title': title,
             'text': text,
-            'url': url,
-            'icon': icon,
-            'ttl': ttl
+            'url': kwargs.get('url', None),
+            'icon': kwargs.get('icon', None),
+            'ttl': kwargs.get('ttl', None),
+            'hidden': kwargs.get('hidden', self.HIDDEN_DEFAULT),
+            'priority': kwargs.get('priority', self.PRIORITY_DEFAULT),
+            'filter': kwargs.get('filter', None),
         }
         data.update(kwargs)
         r = requests.post(PUSHALL_API_URL, data=data)
@@ -38,7 +53,7 @@ class PushallAPI(object):
         if not PUSHALL_API_KEY:
             raise Exception('Задайте PUSHALL_API_KEY')
 
-    def self(self, title, text, url=None, icon=None, ttl=None):
+    def self(self, title, text, **kwargs):
         """
         Send notice to myself
         :param title:
@@ -49,9 +64,9 @@ class PushallAPI(object):
         :return:
         """
         self._check_self()
-        return self._send('self', PUSHALL_USER_ID, PUSHALL_USER_KEY, title, text, url, icon, ttl)
+        return self._send('self', PUSHALL_USER_ID, PUSHALL_USER_KEY, title, text, **kwargs)
 
-    def broadcast(self, title, text, url=None, icon=None, ttl=None):
+    def broadcast(self, title, text, **kwargs):
         """
         Send broadcast notice
         :param title:
@@ -62,9 +77,9 @@ class PushallAPI(object):
         :return:
         """
         self._check_canal()
-        return self._send('broadcast', PUSHALL_CANAL_ID, PUSHALL_API_KEY, title, text, url, icon, ttl)
+        return self._send('broadcast', PUSHALL_CANAL_ID, PUSHALL_API_KEY, title, text, **kwargs)
 
-    def multicast(self, uids, title, text, url=None, icon=None, ttl=None):
+    def multicast(self, uids, title, text, **kwargs):
         """
         Send notice to users from uids list
         :param uids:
@@ -76,9 +91,9 @@ class PushallAPI(object):
         :return:
         """
         self._check_canal()
-        return self._send('multicast', PUSHALL_CANAL_ID, PUSHALL_API_KEY, title, text, url, icon, ttl, uids=json.dumps(uids))
+        return self._send('multicast', PUSHALL_CANAL_ID, PUSHALL_API_KEY, title, text, uids=json.dumps(uids), **kwargs)
 
-    def unicast(self, uid, title, text, url=None, icon=None, ttl=None):
+    def unicast(self, uid, title, text, **kwargs):
         """
         Send notice to user with uid
         :param uid:
@@ -90,7 +105,7 @@ class PushallAPI(object):
         :return:
         """
         self._check_canal()
-        return self._send('unicast', PUSHALL_CANAL_ID, PUSHALL_API_KEY, title, text, url, icon, ttl, uid=uid)
+        return self._send('unicast', PUSHALL_CANAL_ID, PUSHALL_API_KEY, title, text, uid=uid, **kwargs)
 
     def show_list(self, lid=None):
         """

@@ -15,12 +15,12 @@ class PushUser(models.Model):
         verbose_name = _('Subscriber')
         verbose_name_plural = _('Subscribers')
 
-    def notice(self, title, text, url=None, icon=None, ttl=None):
+    def notice(self, title, text, **kwargs):
         from . import Pushall
-        return Pushall.unicast(self.uid, title, text, url, icon, ttl)
+        return Pushall.unicast(self.uid, title, text, **kwargs)
 
     @staticmethod
-    def notice_to_user(user, title, text, url=None, icon=None, ttl=None):
+    def notice_to_user(user, title, text, **kwargs):
         from . import Pushall
         uids = [u.uid for u in user.subscribers.all()]
-        return Pushall.multicast(uids, title, text, url, icon, ttl)
+        return Pushall.multicast(uids, title, text, **kwargs)
